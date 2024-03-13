@@ -1,5 +1,7 @@
 # Java-2D-Game-Project
 This is a 2D game created using Java which I didn't finish yet.
+In this project I exercised my OOP skills and I had to work with multiple classes. 
+All the sprites are free to use and found on the internet.
 
 You have the main menu below.
 
