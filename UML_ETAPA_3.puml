@@ -1,0 +1,178 @@
+@startuml
+class Monster.MON_Giant {
+~ GamePanel gp
++ void getImage()
++ void setAction()
+}
+class Main.Main {
++ {static} void main(String[])
+}
+class Background.BackgroundManager {
+~ GamePanel gp
+~ Tile[] background
++ void getBackgroundImage()
++ void draw(Graphics2D)
+}
+class Background.Tile {
++ BufferedImage image
++ int x
++ void setX(int)
++ void setY(int)
++ int getX(int)
++ int getY(int)
+}
+class Background.TileManager {
+~ GamePanel gp
++ Tile[] tile
++ int[][] mapTileNum
++ void getTileImage()
++ void draw(Graphics2D)
+}
+class Entity.Entity {
+~ GamePanel gp
++ BufferedImage up1
++ BufferedImage image
++ BufferedImage attackLeft1
++ Rectangle solidArea
++ int solidAreaDefaultX
++ Rectangle attackArea
++ int x
++ String direction
++ boolean collisionOn
++ int spriteNum
++ boolean invincible
+~ boolean attacking
++ boolean alive
++ boolean dying
++ int spriteCounter
++ int actionLockCounter
++ int invincibleCounter
+~ int dyingCounter
++ int speed
++ String name
++ int maxLife
++ int life
++ int type
++ void setAction()
++ void damageReaction()
++ void update()
++ void draw(Graphics2D)
++ void dyingAnimation(Graphics2D)
++ void changeAlpha(Graphics2D,float)
+}
+class Main.UtilityTool {
++ BufferedImage scaleImage(BufferedImage,int,int)
+}
+class Entity.NPC_Warrior {
++ void getImage()
++ void setAction()
+}
+class Monster.MON_Plant {
+~ GamePanel gp
++ void getImage()
++ void setAction()
+}
+class Objects.OBJ_Heart {
+- {static} OBJ_Heart instance
++ {static} OBJ_Heart getInstance(GamePanel)
+}
+class Main.UI {
+~ GamePanel gp
+~ Graphics2D g2
+~ Font alagard
+~ BufferedImage full_heart
++ boolean messageOn
++ String message
++ double start
++ int commandNum
++ int titleScreenState
++ void showMessage(String)
++ void draw(Graphics2D)
++ void drawPlayerLife()
++ void drawTitleScreen()
++ void drawPauseScreen()
++ void drawGameOverScreen()
++ int getXforCenteredText(String)
+}
+class Main.DataBaseManager {
+- {static} String DB
++ {static} void Insert(String,long)
+}
+class Entity.Player {
+~ KeyHandler keyH
++ CollisionChecker cChecker
++ void setDefaultValues()
++ void getPlayerImage()
++ void getPlayerAttackImage()
++ void update()
++ void attacking()
++ void interactNPC(int)
++ void contactMonster(int)
++ void damageMonster(int)
++ void draw(Graphics2D)
+}
+class Main.CollisionChecker {
+~ GamePanel gp
++ int checkBorder(int)
++ int checkGround(int)
++ boolean checkPlayer(Entity)
++ int checkEntity(Entity,Entity[])
+}
+class Main.GamePanel {
+- long time
+- boolean hasFinished
+- DataBaseManager dataBaseManager
+~ int originalTileSize
++ int tileSize
++ int maxScreenCol
++ int maxScreenRow
++ int screenWidth
++ int screenHeight
+- {static} BufferedImage backdrop
+~ int FPS
+~ BackgroundManager bgM
+~ TileManager tileM
++ KeyHandler keyH
++ CollisionChecker cChecker
++ UI ui
+~ Thread gameThread
++ AssetSetter aSetter
++ Player player
++ Entity[] npc
++ Entity[] monster
+~ ArrayList<Entity> entityList
++ int gameState
++ int titleState
++ int playState
++ int pauseState
++ int gameOverState
++ void setupGame()
++ TileManager getTileManager()
++ void startGameThread()
++ void run()
++ void update()
++ void paintComponent(Graphics)
+}
+class Main.AssetSetter {
+~ GamePanel gp
++ void setNPC()
++ void setMonster()
+}
+class Main.KeyHandler {
+~ GamePanel gp
++ boolean upPressed
++ void keyTyped(KeyEvent)
++ void keyPressed(KeyEvent)
++ void keyReleased(KeyEvent)
+}
+
+
+Entity.Entity <|-- Monster.MON_Giant
+Entity.Entity <|-- Entity.NPC_Warrior
+Entity.Entity <|-- Monster.MON_Plant
+Entity <|-- Objects.OBJ_Heart
+Entity.Entity <|-- Entity.Player
+Main.Runnable <|.. Main.GamePanel
+Main.JPanel <|-- Main.GamePanel
+java.awt.event.KeyListener <|.. Main.KeyHandler
+@enduml
